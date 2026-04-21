@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { createSupabaseServiceClient } from '@/lib/supabase/service-client';
+import { buildSjcHistoryResponse, type GoldProductOption } from '@/lib/sjc/history-api';
 import type { SjcDailyPricePayload, SjcDailyPricePayloadItem } from '@/lib/supabase/types';
 
 export type GoldBoardEntry = {
@@ -72,4 +73,25 @@ export async function getSjcDailyPrices(branchName?: string) {
     latestDay: data.latest_day,
     entries,
   } satisfies GoldBoardSnapshot;
+}
+
+export async function getSjcPriceHistory(
+  goldProductOptions: GoldProductOption,
+  fromDate: string,
+  toDate: string,
+) {
+  const supabase = createSupabaseServiceClient();
+
+  const { data, error } = await supabase
+    .from('sjc_daily_prices')
+    .select('data, latest_day')
+    .gte('latest_day', fromDate)
+    .lte('latest_day', toDate)
+    .order('latest_day', { ascending: true });
+
+  if (error) {
+    throw new Error(`Failed to fetch sjc_daily_prices history: ${error.message}`);
+  }
+
+  return buildSjcHistoryResponse(data ?? [], goldProductOptions);
 }

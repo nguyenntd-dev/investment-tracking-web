@@ -101,10 +101,7 @@ function createMockApiResponse(
     const burst = index % 11 === 5 ? volatility * 1.4 : 0;
     const buyValue = Math.round(baseBuy + trend + swingA + swingB + swingC + pullback + burst) * 1000;
     const sellValue = Math.round(
-      buyValue +
-        spreadBase * 1000 +
-        Math.cos(index * 0.23) * 48000 +
-        Math.sin(index * 0.09 + 0.7) * 34000,
+      buyValue + spreadBase * 1000 + Math.cos(index * 0.23) * 48000 + Math.sin(index * 0.09 + 0.7) * 34000,
     );
 
     return {
@@ -124,13 +121,48 @@ const goldHistoryByProduct: Record<GoldProduct, Record<GoldPeriod, GoldHistoryAp
     '7d': {
       success: true,
       data: [
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 169240000, SellValue: 172120000, GroupDate: '\\/Date(1775610000000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 170310000, SellValue: 173420000, GroupDate: '\\/Date(1775696400000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 168920000, SellValue: 171480000, GroupDate: '\\/Date(1775782800000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 169640000, SellValue: 172260000, GroupDate: '\\/Date(1775869200000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 169420000, SellValue: 172030000, GroupDate: '\\/Date(1775955600000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 168980000, SellValue: 171510000, GroupDate: '\\/Date(1776042000000)\\/' },
-        { TypeName: 'Vàng Miếng 1L', BuyValue: 169954000, SellValue: 173070000, GroupDate: '\\/Date(1776128400000)\\/' },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 169240000,
+          SellValue: 172120000,
+          GroupDate: '\\/Date(1775610000000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 170310000,
+          SellValue: 173420000,
+          GroupDate: '\\/Date(1775696400000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 168920000,
+          SellValue: 171480000,
+          GroupDate: '\\/Date(1775782800000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 169640000,
+          SellValue: 172260000,
+          GroupDate: '\\/Date(1775869200000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 169420000,
+          SellValue: 172030000,
+          GroupDate: '\\/Date(1775955600000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 168980000,
+          SellValue: 171510000,
+          GroupDate: '\\/Date(1776042000000)\\/',
+        },
+        {
+          TypeName: 'Vàng Miếng 1L',
+          BuyValue: 169954000,
+          SellValue: 173070000,
+          GroupDate: '\\/Date(1776128400000)\\/',
+        },
       ],
     },
     '30d': createMockApiResponse(30, 'Vàng Miếng 1L', 162400, 2860, 192, 210),
