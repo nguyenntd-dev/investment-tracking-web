@@ -64,13 +64,6 @@ function createDateRange(fromDate: string, toDate: string) {
 }
 
 export async function fetchSjcDailySnapshot(day: Date, goldPriceId = 1) {
-  const body = new URLSearchParams({
-    method: 'GetGoldPriceHistory',
-    goldPriceId: `${goldPriceId}`,
-    fromDate: formatSjcDate(day),
-    toDate: formatSjcDate(day),
-  });
-
   const response = await fetch(SJC_HISTORY_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -80,9 +73,16 @@ export async function fetchSjcDailySnapshot(day: Date, goldPriceId = 1) {
       referer: 'https://sjc.com.vn/',
       'x-requested-with': 'XMLHttpRequest',
     },
-    body: body.toString(),
+    body: JSON.stringify({
+      method: 'GetGoldPriceHistory',
+      goldPriceId: `${goldPriceId}`,
+      fromDate: formatSjcDate(day),
+      toDate: formatSjcDate(day),
+    }),
     cache: 'no-store',
   });
+
+  console.log('response', response);
 
   if (!response.ok) {
     throw new Error(`SJC history request failed with status ${response.status}.`);
