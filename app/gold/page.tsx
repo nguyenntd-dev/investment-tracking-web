@@ -4,12 +4,66 @@ import { GoldPriceHistory } from '@/components/gold-price-history';
 import { getSjcDailyPrices } from '@/lib/supabase/sjc-daily-prices';
 
 const fallbackGoldPrices = [
-  { id: 1, branch: 'Hồ Chí Minh', type: 'SJC 1L, 10L, 1KG', buy: '118,500,000', sell: '120,500,000', spread: '2,000,000' },
-  { id: 2, branch: 'Hồ Chí Minh', type: 'SJC 5 chỉ', buy: '118,450,000', sell: '120,450,000', spread: '2,000,000' },
-  { id: 3, branch: 'Hồ Chí Minh', type: 'SJC 1 chỉ, 2 chỉ', buy: '118,380,000', sell: '120,380,000', spread: '2,000,000' },
-  { id: 4, branch: 'Hồ Chí Minh', type: 'Nhẫn trơn 9999', buy: '114,200,000', sell: '116,800,000', spread: '2,600,000' },
-  { id: 5, branch: 'Hồ Chí Minh', type: 'Nữ trang 99.99%', buy: '113,100,000', sell: '115,700,000', spread: '2,600,000' },
-  { id: 6, branch: 'Hồ Chí Minh', type: 'Nữ trang 75%', buy: '82,400,000', sell: '89,400,000', spread: '7,000,000' },
+  {
+    id: 1,
+    branch: 'Hồ Chí Minh',
+    type: 'SJC 1L, 10L, 1KG',
+    buy: '118,500',
+    sell: '120,500',
+    buyValue: '118,500,000',
+    sellValue: '120,500,000',
+    spread: '2,000,000',
+  },
+  {
+    id: 2,
+    branch: 'Hồ Chí Minh',
+    type: 'SJC 5 chỉ',
+    buy: '118,450',
+    sell: '120,450',
+    buyValue: '118,450,000',
+    sellValue: '120,450,000',
+    spread: '2,000,000',
+  },
+  {
+    id: 3,
+    branch: 'Hồ Chí Minh',
+    type: 'SJC 1 chỉ, 2 chỉ',
+    buy: '118,380',
+    sell: '120,380',
+    buyValue: '118,380,000',
+    sellValue: '120,380,000',
+    spread: '2,000,000',
+  },
+  {
+    id: 4,
+    branch: 'Hồ Chí Minh',
+    type: 'Nhẫn trơn 9999',
+    buy: '114,200',
+    sell: '116,800',
+    buyValue: '114,200,000',
+    sellValue: '116,800,000',
+    spread: '2,600,000',
+  },
+  {
+    id: 5,
+    branch: 'Hồ Chí Minh',
+    type: 'Nữ trang 99.99%',
+    buy: '113,100',
+    sell: '115,700',
+    buyValue: '113,100,000',
+    sellValue: '115,700,000',
+    spread: '2,600,000',
+  },
+  {
+    id: 6,
+    branch: 'Hồ Chí Minh',
+    type: 'Nữ trang 75%',
+    buy: '82,400',
+    sell: '89,400',
+    buyValue: '82,400,000',
+    sellValue: '89,400,000',
+    spread: '7,000,000',
+  },
 ];
 
 const fxRates = [
@@ -56,7 +110,7 @@ async function getGoldBoardRows() {
 
     if (!snapshot.entries.length) {
       return {
-        prices: fallbackGoldPrices,
+        prices: [],
         updatedAtLabel: 'Updated with the same reference window as the local gold board.',
       };
     }
@@ -65,8 +119,10 @@ async function getGoldBoardRows() {
       id: entry.id,
       branch: entry.branch,
       type: entry.type,
-      buy: formatMoneyValue(entry.buyValue),
-      sell: formatMoneyValue(entry.sellValue),
+      buy: entry.buy,
+      sell: entry.sell,
+      buyValue: formatMoneyValue(entry.buyValue),
+      sellValue: formatMoneyValue(entry.sellValue),
       spread: formatSpread(entry.buyValue, entry.sellValue),
     }));
 
@@ -98,9 +154,7 @@ export default async function GoldPage() {
                 </div>
                 <h2 className="mt-3 text-2xl font-semibold tracking-tight">SJC price table</h2>
               </div>
-              <div className="bg-[#fff8eb] text-[#9b6c12] rounded-full px-3 py-1 text-xs font-medium">
-                All branches
-              </div>
+              <div className="bg-[#fff8eb] text-[#9b6c12] rounded-full px-3 py-1 text-xs font-medium">All branches</div>
             </div>
 
             <p className="text-muted-foreground mt-4 text-sm leading-6">
@@ -109,11 +163,13 @@ export default async function GoldPage() {
 
             <div className="mt-5 rounded-[1.5rem] border border-[#d8c8a6]/80">
               <div className="max-h-[35rem] overflow-auto overscroll-contain rounded-[1.5rem] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#cbb370] [&::-webkit-scrollbar-track]:bg-[#fff8eb] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar]:w-2">
-                <div className="min-w-[64rem]">
-                  <div className="sticky top-0 z-10 bg-[#f4e6bd] grid grid-cols-[minmax(13rem,1.5fr)_minmax(7rem,0.8fr)_minmax(7rem,0.8fr)_minmax(7rem,0.8fr)_minmax(8rem,1.1fr)] gap-3 px-4 py-3 text-sm font-semibold">
+                <div className="min-w-[88rem]">
+                  <div className="sticky top-0 z-10 bg-[#f4e6bd] grid grid-cols-[minmax(15rem,1.5fr)_minmax(7rem,0.75fr)_minmax(7rem,0.75fr)_minmax(12rem,1fr)_minmax(12rem,1fr)_minmax(10rem,0.9fr)_minmax(10rem,1fr)] gap-3 px-4 py-3 text-sm font-semibold">
                     <span>Type</span>
                     <span className="text-right">Buy</span>
                     <span className="text-right">Sell</span>
+                    <span className="text-right">BuyValue</span>
+                    <span className="text-right">SellValue</span>
                     <span className="text-right">Spread</span>
                     <span className="text-right">Branch</span>
                   </div>
@@ -121,11 +177,13 @@ export default async function GoldPage() {
                     {prices.map((item) => (
                       <div
                         key={item.id}
-                        className="grid min-h-[3.5rem] grid-cols-[minmax(13rem,1.5fr)_minmax(7rem,0.8fr)_minmax(7rem,0.8fr)_minmax(7rem,0.8fr)_minmax(8rem,1.1fr)] items-center gap-3 px-4 py-3 text-sm transition odd:bg-white even:bg-[#fffaf0]"
+                        className="grid min-h-[3.5rem] grid-cols-[minmax(15rem,1.5fr)_minmax(7rem,0.75fr)_minmax(7rem,0.75fr)_minmax(12rem,1fr)_minmax(12rem,1fr)_minmax(10rem,0.9fr)_minmax(10rem,1fr)] items-center gap-3 px-4 py-3 text-sm transition odd:bg-white even:bg-[#fffaf0]"
                       >
                         <div className="pr-2 font-medium leading-6">{item.type}</div>
                         <div className="text-right font-semibold">{item.buy}</div>
                         <div className="text-right font-semibold text-[#0c6aa6]">{item.sell}</div>
+                        <div className="text-right font-semibold">{item.buyValue}</div>
+                        <div className="text-right font-semibold text-[#0c6aa6]">{item.sellValue}</div>
                         <div className="text-right font-semibold text-[#9b6c12]">{item.spread}</div>
                         <div className="text-right font-medium leading-6 text-[#6b4a08]">{item.branch}</div>
                       </div>
@@ -134,7 +192,6 @@ export default async function GoldPage() {
                 </div>
               </div>
             </div>
-
           </section>
 
           <section className="flex min-w-0 flex-col gap-5">

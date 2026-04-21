@@ -27,18 +27,21 @@ export type Database = {
       sjc_daily_prices: {
         Row: {
           id: string;
-          data: string;
+          data: Json;
           latest_day: string | null;
+          created_at?: string | null;
         };
         Insert: {
           id?: string;
-          data: string;
+          data: Json;
           latest_day?: string | null;
+          created_at?: string | null;
         };
         Update: {
           id?: string;
-          data?: string;
+          data?: Json;
           latest_day?: string | null;
+          created_at?: string | null;
         };
         Relationships: [];
       };

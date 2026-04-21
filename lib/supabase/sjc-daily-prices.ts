@@ -11,6 +11,8 @@ export type GoldBoardEntry = {
   sell: string;
   buyValue: number;
   sellValue: number;
+  buyDifferValue: number;
+  sellDifferValue: number;
 };
 
 export type GoldBoardSnapshot = {
@@ -32,6 +34,8 @@ function normalizeEntry(item: SjcDailyPricePayloadItem): GoldBoardEntry {
     sell: item.Sell,
     buyValue: item.BuyValue,
     sellValue: item.SellValue,
+    buyDifferValue: item.BuyDifferValue,
+    sellDifferValue: item.SellDifferValue,
   };
 }
 
